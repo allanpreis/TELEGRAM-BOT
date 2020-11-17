@@ -1,0 +1,467 @@
+{
+  "intents": [
+    {
+      "intent": "agradecimento",
+      "examples": [
+        {
+          "text": "Obrigado pela ajuda"
+        },
+        {
+          "text": "Tamo Junto"
+        },
+        {
+          "text": "Valeu"
+        },
+        {
+          "text": "Valeu, você fez um bom trabalho"
+        }
+      ],
+      "description": ""
+    },
+    {
+      "intent": "pergunta",
+      "examples": [
+        {
+          "text": "Eu queria ajuda para saber sobre um herói"
+        },
+        {
+          "text": "Gostaria de saber sobre um herói"
+        },
+        {
+          "text": "Quem é DeadPool?"
+        },
+        {
+          "text": "Quem é Homem de ferro?"
+        },
+        {
+          "text": "Quem é Juggernaut?"
+        },
+        {
+          "text": "Quem é loki?"
+        }
+      ],
+      "description": ""
+    },
+    {
+      "intent": "saudar",
+      "examples": [
+        {
+          "text": "Boa noite"
+        },
+        {
+          "text": "Boa tarde"
+        },
+        {
+          "text": "Bom dia"
+        },
+        {
+          "text": "Como você está?"
+        },
+        {
+          "text": "Eai"
+        },
+        {
+          "text": "Oi"
+        },
+        {
+          "text": "Olá! Tudo bem?"
+        },
+        {
+          "text": "Sauve"
+        }
+      ],
+      "description": "Tratar os tipos de saudações "
+    }
+  ],
+  "entities": [
+    {
+      "entity": "herois",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "DeadPool",
+          "synonyms": [
+            "Amigo do homem aranha ",
+            "Wade",
+            "Wade Wilson "
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "homem de ferro",
+          "synonyms": [
+            "homemdeferro",
+            "homen de ferro",
+            "irom man",
+            "iron mam",
+            "iron man",
+            "Stark",
+            "Tony",
+            "Tony Stark"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "Juggernaut",
+          "synonyms": [
+            "Cain Marko",
+            "Fanatico",
+            "Fanático"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "loki",
+          "synonyms": [
+            "Deus da Trapaca",
+            "deus da trapaça",
+            "Deus da travessura",
+            "Loki",
+            "Loqui"
+          ]
+        }
+      ],
+      "fuzzy_match": true
+    },
+    {
+      "entity": "saudacao-formal",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "Boa noite",
+          "synonyms": [
+            "boa noite"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "Boa tarde",
+          "synonyms": [
+            "boa tarde"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "Bom dia",
+          "synonyms": [
+            "bom dia"
+          ]
+        }
+      ],
+      "fuzzy_match": true
+    },
+    {
+      "entity": "sim-nao",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "não",
+          "synonyms": [
+            "deus me livre",
+            "nao",
+            "negativo",
+            "nem",
+            "nunca",
+            "so que nao",
+            "só que não",
+            "sqn"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "sim",
+          "synonyms": [
+            "afirmativo",
+            "claro",
+            "ok",
+            "pode ser",
+            "positivo"
+          ]
+        }
+      ],
+      "fuzzy_match": true
+    },
+    {
+      "entity": "sys-currency",
+      "values": [],
+      "fuzzy_match": true
+    }
+  ],
+  "metadata": {
+    "api_version": {
+      "major_version": "v2",
+      "minor_version": "2018-11-08"
+    }
+  },
+  "dialog_nodes": [
+    {
+      "type": "standard",
+      "title": "Bem-vindo",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Olá. Como posso te ajudar?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "welcome",
+      "dialog_node": "Bem-vindo"
+    },
+    {
+      "type": "standard",
+      "title": "Em outros casos",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Eu não entendi. Você pode tentar reformular a frase."
+              },
+              {
+                "text": "Você pode reformular sua afirmação? Eu não estou entendendo."
+              },
+              {
+                "text": "Eu não entendi o sentido."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "anything_else",
+      "dialog_node": "Em outros casos",
+      "previous_sibling": "node_1_1585960366657",
+      "disambiguation_opt_out": true
+    },
+    {
+      "type": "event_handler",
+      "output": {},
+      "parent": "slot_2_1585960673784",
+      "context": {
+        "heroi": "@herois"
+      },
+      "conditions": "@herois",
+      "event_name": "input",
+      "dialog_node": "handler_2_1585960673789"
+    },
+    {
+      "type": "event_handler",
+      "output": {
+        "text": {
+          "values": [
+            "Qual o herói da Marvel deseja saber a historia? "
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "slot_2_1585960673784",
+      "event_name": "focus",
+      "dialog_node": "handler_7_1585960673789",
+      "previous_sibling": "handler_2_1585960673789"
+    },
+    {
+      "type": "frame",
+      "title": "Pergunta heróis {Slots}",
+      "metadata": {
+        "_customization": {
+          "mcr": true
+        }
+      },
+      "conditions": "#pergunta",
+      "digress_in": "does_not_return",
+      "dialog_node": "node_1_1585960366657",
+      "previous_sibling": "node_3_1585358547506"
+    },
+    {
+      "type": "standard",
+      "title": "Agradecimento",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "De nada. Posso ajudar com mais alguma coisa? "
+              },
+              {
+                "text": "Que isso! Obrigado por usar nosso sistema"
+              },
+              {
+                "text": "Valeu! Você mandou bem"
+              },
+              {
+                "text": "Imagina, obrigado você"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "random"
+          }
+        ]
+      },
+      "conditions": "#agradecimento",
+      "digress_in": "does_not_return",
+      "dialog_node": "node_3_1585358547506",
+      "previous_sibling": "node_5_1588986822553"
+    },
+    {
+      "type": "standard",
+      "title": "Saudação",
+      "metadata": {
+        "_customization": {
+          "mcr": true
+        }
+      },
+      "conditions": "#saudar",
+      "dialog_node": "node_5_1588986822553",
+      "previous_sibling": "Bem-vindo"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Wade Wilson nasceu no Canadá, mas cresceu para se tornar a pessoa menos canadense de todos os tempos. Quando se trata de ser um mercenário tagarela,  mostra que com grande poder não vem nenhuma responsabilidade. Wade é um anti-herói com poderes regenerativo extravagante que combate o crime ao seu jeito maluco de ser, não se importando do modo vilão  de se resolver se necessario"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_1_1585960366657",
+      "conditions": "@herois:DeadPool",
+      "dialog_node": "response_2_1598996514316",
+      "previous_sibling": "response_8_1585965378529"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Gênio. Bilionário. Filantropo. A confiança de Tony Stark só é igualada por suas habilidades de voar alto como o herói chamado Homem de Ferro."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_1_1585960366657",
+      "conditions": "@herois:(homem de ferro)",
+      "dialog_node": "response_3_1598996530687",
+      "previous_sibling": "response_9_1598996522727"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "text": {
+          "values": [
+            "Oi!"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_5_1588986822553",
+      "conditions": "!@saudacao-formal",
+      "dialog_node": "response_5_1588987138789",
+      "previous_sibling": "response_8_1588987091806"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Loki, Príncipe de Asgard, Odinson, herdeiro legítimo de Jotunheim e Deus do Mal, está sobrecarregado com um propósito glorioso. Seu desejo de ser um rei o leva a semear o caos em Asgard. Em sua ânsia de poder, ele estende seu alcance à Terra, onde acredita que eles precisam de um governante e encontra heróis improváveis ​​que interferem em seus planos."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_1_1585960366657",
+      "conditions": "@herois:loki",
+      "dialog_node": "response_8_1585965378529"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "@saudacao-formal para você também! <? intents ?>"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_5_1588986822553",
+      "conditions": "@saudacao-formal",
+      "dialog_node": "response_8_1588987091806"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Juggernaut, também conhecido como Fanático, é um personagem de quadrinhos da Marvel Comics, usado principalmente como vilão nas histórias dos X-Men."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_1_1585960366657",
+      "conditions": "@herois:Juggernaut",
+      "dialog_node": "response_9_1598996522727",
+      "previous_sibling": "response_2_1598996514316"
+    },
+    {
+      "type": "slot",
+      "output": {},
+      "parent": "node_1_1585960366657",
+      "variable": "$heroi",
+      "dialog_node": "slot_2_1585960673784",
+      "previous_sibling": "response_3_1598996530687"
+    }
+  ],
+  "counterexamples": [],
+  "system_settings": {
+    "disambiguation": {
+      "prompt": "Você quis dizer:",
+      "enabled": true,
+      "randomize": true,
+      "max_suggestions": 5,
+      "suggestion_text_policy": "title",
+      "none_of_the_above_prompt": "Nenhuma das anteriores"
+    },
+    "system_entities": {
+      "enabled": true
+    },
+    "human_agent_assist": {
+      "prompt": "Você quis dizer:"
+    }
+  },
+  "learning_opt_out": false,
+  "name": "Ajuda",
+  "language": "pt-br",
+  "description": "Essa skill ajuda o cliente a achar o melhor aparelho para ele."
+}
